@@ -1,7 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "adiciona.h"
-
+#include <QTimer>
 
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -12,6 +12,14 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     connect(m_controlManager.data(),SIGNAL(replyReady(QByteArray)),
             this,SLOT(updateLabels(QByteArray)));
+
+    ui->iluminacao_progressBar->setRange(0,100);
+    ui->umidade_progressBar->setRange(0,200);
+    ui->temperatura_progressBar->setRange(20,30);
+
+    QTimer *timer = new QTimer(this);
+    connect(timer, SIGNAL(timeout()), this, SLOT(on_pushButton_2_clicked()));
+    timer->start(2000);
 }
 
 MainWindow::~MainWindow()
@@ -37,7 +45,28 @@ void MainWindow::on_pushButton_2_clicked()
 
 void MainWindow::updateLabels(QByteArray b) {
     QStringList list = QString(b.constData()).split(",");
+
     ui->iluminacaoLabel->setText(list.at(0));
+    int ilu =list.at(0).toInt();
+    if (ilu < 15 || ilu > 85) {
+        QPalette palette;
+        palette.setBrush(QPalette::Highlight, QBrush(Qt::red));
+        ui->iluminacao_progressBar->setPalette(palette);
+    }
+    else {
+        QPalette palette;
+        palette.setBrush(QPalette::Highlight, QBrush(Qt::green));
+        ui->iluminacao_progressBar->setPalette(palette);
+    }
+
+    ui->iluminacao_progressBar->setValue(list.at(0).toInt());
+
     ui->umidadeLabel->setText(list.at(1));
+    QStringList chop = list.at(1).split(".");
+    ui->umidade_progressBar->setValue(chop.at(0).toInt());
+
+    chop = list.at(2).split(".");
     ui->temperaturaLabel->setText(list.at(2));
+    ui->temperatura_progressBar->setValue(chop.at(0).toInt());
+
 }
