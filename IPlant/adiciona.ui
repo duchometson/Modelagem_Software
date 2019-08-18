@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>IPlant</string>
   </property>
   <widget class="QDialogButtonBox" name="buttonBox">
    <property name="geometry">
@@ -28,6 +28,116 @@
    <property name="standardButtons">
     <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
    </property>
+  </widget>
+  <widget class="QWidget" name="">
+   <property name="geometry">
+    <rect>
+     <x>11</x>
+     <y>17</y>
+     <width>331</width>
+     <height>151</height>
+    </rect>
+   </property>
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="0">
+     <widget class="QLabel" name="label">
+      <property name="text">
+       <string>Legume</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1">
+     <widget class="QComboBox" name="comboBox">
+      <item>
+       <property name="text">
+        <string>Abóbora</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Abobrinha</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Berinjela</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Cenoura</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Chuchu</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Mandioca</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Quiabo</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Tomate</string>
+       </property>
+      </item>
+     </widget>
+    </item>
+    <item row="1" column="0">
+     <widget class="QLabel" name="label_2">
+      <property name="text">
+       <string>Data do plantio</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="1">
+     <widget class="QDateEdit" name="dateEdit">
+      <property name="dateTime">
+       <datetime>
+        <hour>0</hour>
+        <minute>0</minute>
+        <second>7</second>
+        <year>2019</year>
+        <month>8</month>
+        <day>18</day>
+       </datetime>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="0">
+     <widget class="QLabel" name="label_3">
+      <property name="text">
+       <string>Nivel de antenção</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="1">
+     <widget class="QComboBox" name="comboBox_2">
+      <item>
+       <property name="text">
+        <string>Alto</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Médio</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Baixo</string>
+       </property>
+      </item>
+     </widget>
+    </item>
+   </layout>
   </widget>
  </widget>
  <resources/>
