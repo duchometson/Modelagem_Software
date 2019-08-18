@@ -11,14 +11,18 @@
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
-#include <QtWidgets/QGridLayout>
+#include <QtWidgets/QComboBox>
 #include <QtWidgets/QGroupBox>
+#include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QLabel>
+#include <QtWidgets/QLineEdit>
+#include <QtWidgets/QListWidget>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QProgressBar>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QScrollArea>
+#include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QTabWidget>
 #include <QtWidgets/QToolBar>
@@ -31,7 +35,7 @@ class Ui_MainWindow
 {
 public:
     QWidget *centralWidget;
-    QGridLayout *gridLayout;
+    QVBoxLayout *verticalLayout_3;
     QTabWidget *tabWidget;
     QWidget *tab;
     QScrollArea *scrollArea;
@@ -65,18 +69,20 @@ public:
     QProgressBar *umidade_progressBar;
     QProgressBar *temperatura_progressBar;
     QWidget *tab_2;
-    QWidget *widget;
-    QVBoxLayout *verticalLayout_3;
+    QWidget *verticalLayoutWidget;
+    QVBoxLayout *verticalLayout_4;
+    QHBoxLayout *horizontalLayout;
     QLabel *label_16;
+    QSpacerItem *horizontalSpacer;
+    QLineEdit *lineEdit;
+    QHBoxLayout *horizontalLayout_2;
     QLabel *label_17;
     QLabel *label_18;
-    QLabel *label_19;
+    QHBoxLayout *horizontalLayout_3;
     QLabel *label_20;
-    QLabel *label_21;
-    QLabel *label_22;
-    QLabel *label_23;
-    QLabel *label_24;
-    QLabel *label_25;
+    QComboBox *comboBox;
+    QLabel *label_19;
+    QListWidget *listWidget;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -88,10 +94,10 @@ public:
         MainWindow->resize(357, 400);
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QString::fromUtf8("centralWidget"));
-        gridLayout = new QGridLayout(centralWidget);
-        gridLayout->setSpacing(6);
-        gridLayout->setContentsMargins(11, 11, 11, 11);
-        gridLayout->setObjectName(QString::fromUtf8("gridLayout"));
+        verticalLayout_3 = new QVBoxLayout(centralWidget);
+        verticalLayout_3->setSpacing(6);
+        verticalLayout_3->setContentsMargins(11, 11, 11, 11);
+        verticalLayout_3->setObjectName(QString::fromUtf8("verticalLayout_3"));
         tabWidget = new QTabWidget(centralWidget);
         tabWidget->setObjectName(QString::fromUtf8("tabWidget"));
         tab = new QWidget();
@@ -239,67 +245,88 @@ public:
         tabWidget->addTab(tab_3, QString());
         tab_2 = new QWidget();
         tab_2->setObjectName(QString::fromUtf8("tab_2"));
-        widget = new QWidget(tab_2);
-        widget->setObjectName(QString::fromUtf8("widget"));
-        widget->setGeometry(QRect(5, 10, 356, 226));
-        verticalLayout_3 = new QVBoxLayout(widget);
-        verticalLayout_3->setSpacing(6);
-        verticalLayout_3->setContentsMargins(11, 11, 11, 11);
-        verticalLayout_3->setObjectName(QString::fromUtf8("verticalLayout_3"));
-        verticalLayout_3->setContentsMargins(0, 0, 0, 0);
-        label_16 = new QLabel(widget);
+        verticalLayoutWidget = new QWidget(tab_2);
+        verticalLayoutWidget->setObjectName(QString::fromUtf8("verticalLayoutWidget"));
+        verticalLayoutWidget->setGeometry(QRect(0, 0, 331, 291));
+        verticalLayout_4 = new QVBoxLayout(verticalLayoutWidget);
+        verticalLayout_4->setSpacing(6);
+        verticalLayout_4->setContentsMargins(11, 11, 11, 11);
+        verticalLayout_4->setObjectName(QString::fromUtf8("verticalLayout_4"));
+        verticalLayout_4->setContentsMargins(0, 0, 0, 0);
+        horizontalLayout = new QHBoxLayout();
+        horizontalLayout->setSpacing(6);
+        horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
+        label_16 = new QLabel(verticalLayoutWidget);
         label_16->setObjectName(QString::fromUtf8("label_16"));
 
-        verticalLayout_3->addWidget(label_16);
+        horizontalLayout->addWidget(label_16);
 
-        label_17 = new QLabel(widget);
+        horizontalSpacer = new QSpacerItem(81, 20, QSizePolicy::Fixed, QSizePolicy::Minimum);
+
+        horizontalLayout->addItem(horizontalSpacer);
+
+        lineEdit = new QLineEdit(verticalLayoutWidget);
+        lineEdit->setObjectName(QString::fromUtf8("lineEdit"));
+
+        horizontalLayout->addWidget(lineEdit);
+
+
+        verticalLayout_4->addLayout(horizontalLayout);
+
+        horizontalLayout_2 = new QHBoxLayout();
+        horizontalLayout_2->setSpacing(6);
+        horizontalLayout_2->setObjectName(QString::fromUtf8("horizontalLayout_2"));
+        label_17 = new QLabel(verticalLayoutWidget);
         label_17->setObjectName(QString::fromUtf8("label_17"));
 
-        verticalLayout_3->addWidget(label_17);
+        horizontalLayout_2->addWidget(label_17);
 
-        label_18 = new QLabel(widget);
+        label_18 = new QLabel(verticalLayoutWidget);
         label_18->setObjectName(QString::fromUtf8("label_18"));
 
-        verticalLayout_3->addWidget(label_18);
+        horizontalLayout_2->addWidget(label_18);
 
-        label_19 = new QLabel(widget);
-        label_19->setObjectName(QString::fromUtf8("label_19"));
 
-        verticalLayout_3->addWidget(label_19);
+        verticalLayout_4->addLayout(horizontalLayout_2);
 
-        label_20 = new QLabel(widget);
+        horizontalLayout_3 = new QHBoxLayout();
+        horizontalLayout_3->setSpacing(6);
+        horizontalLayout_3->setObjectName(QString::fromUtf8("horizontalLayout_3"));
+        label_20 = new QLabel(verticalLayoutWidget);
         label_20->setObjectName(QString::fromUtf8("label_20"));
 
-        verticalLayout_3->addWidget(label_20);
+        horizontalLayout_3->addWidget(label_20);
 
-        label_21 = new QLabel(widget);
-        label_21->setObjectName(QString::fromUtf8("label_21"));
+        comboBox = new QComboBox(verticalLayoutWidget);
+        comboBox->addItem(QString());
+        comboBox->addItem(QString());
+        comboBox->addItem(QString());
+        comboBox->setObjectName(QString::fromUtf8("comboBox"));
 
-        verticalLayout_3->addWidget(label_21);
+        horizontalLayout_3->addWidget(comboBox);
 
-        label_22 = new QLabel(widget);
-        label_22->setObjectName(QString::fromUtf8("label_22"));
 
-        verticalLayout_3->addWidget(label_22);
+        verticalLayout_4->addLayout(horizontalLayout_3);
 
-        label_23 = new QLabel(widget);
-        label_23->setObjectName(QString::fromUtf8("label_23"));
+        label_19 = new QLabel(verticalLayoutWidget);
+        label_19->setObjectName(QString::fromUtf8("label_19"));
 
-        verticalLayout_3->addWidget(label_23);
+        verticalLayout_4->addWidget(label_19);
 
-        label_24 = new QLabel(widget);
-        label_24->setObjectName(QString::fromUtf8("label_24"));
+        listWidget = new QListWidget(verticalLayoutWidget);
+        new QListWidgetItem(listWidget);
+        new QListWidgetItem(listWidget);
+        new QListWidgetItem(listWidget);
+        new QListWidgetItem(listWidget);
+        new QListWidgetItem(listWidget);
+        new QListWidgetItem(listWidget);
+        listWidget->setObjectName(QString::fromUtf8("listWidget"));
 
-        verticalLayout_3->addWidget(label_24);
-
-        label_25 = new QLabel(widget);
-        label_25->setObjectName(QString::fromUtf8("label_25"));
-
-        verticalLayout_3->addWidget(label_25);
+        verticalLayout_4->addWidget(listWidget);
 
         tabWidget->addTab(tab_2, QString());
 
-        gridLayout->addWidget(tabWidget, 0, 1, 1, 1);
+        verticalLayout_3->addWidget(tabWidget);
 
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
@@ -348,16 +375,33 @@ public:
         label_8->setText(QApplication::translate("MainWindow", "Temperatura:", nullptr));
         temperaturaLabel->setText(QApplication::translate("MainWindow", ".", nullptr));
         tabWidget->setTabText(tabWidget->indexOf(tab_3), QApplication::translate("MainWindow", "Cultivador", nullptr));
-        label_16->setText(QApplication::translate("MainWindow", "- Baseada na sua localiza\303\247\303\243o plantar tomate \303\251 o", nullptr));
-        label_17->setText(QApplication::translate("MainWindow", "mais recomendado.", nullptr));
-        label_18->setText(QApplication::translate("MainWindow", "- ", nullptr));
-        label_19->setText(QApplication::translate("MainWindow", "- ", nullptr));
-        label_20->setText(QApplication::translate("MainWindow", "- ", nullptr));
-        label_21->setText(QApplication::translate("MainWindow", "- ", nullptr));
-        label_22->setText(QApplication::translate("MainWindow", "- ", nullptr));
-        label_23->setText(QApplication::translate("MainWindow", "- ", nullptr));
-        label_24->setText(QApplication::translate("MainWindow", "- ", nullptr));
-        label_25->setText(QApplication::translate("MainWindow", "- ", nullptr));
+        label_16->setText(QApplication::translate("MainWindow", "Localiza\303\247\303\243o:", nullptr));
+        lineEdit->setText(QApplication::translate("MainWindow", "Rio de Janeiro - RJ", nullptr));
+        label_17->setText(QApplication::translate("MainWindow", "Esta\303\247\303\243o:", nullptr));
+        label_18->setText(QApplication::translate("MainWindow", "Inverno", nullptr));
+        label_20->setText(QApplication::translate("MainWindow", "N\303\255vel Jardim:", nullptr));
+        comboBox->setItemText(0, QApplication::translate("MainWindow", "Alto", nullptr));
+        comboBox->setItemText(1, QApplication::translate("MainWindow", "M\303\251dio", nullptr));
+        comboBox->setItemText(2, QApplication::translate("MainWindow", "Baixo", nullptr));
+
+        label_19->setText(QApplication::translate("MainWindow", "Baseado no seus dados, recomendamos:", nullptr));
+
+        const bool __sortingEnabled = listWidget->isSortingEnabled();
+        listWidget->setSortingEnabled(false);
+        QListWidgetItem *___qlistwidgetitem = listWidget->item(0);
+        ___qlistwidgetitem->setText(QApplication::translate("MainWindow", "Chic\303\263rias.", nullptr));
+        QListWidgetItem *___qlistwidgetitem1 = listWidget->item(1);
+        ___qlistwidgetitem1->setText(QApplication::translate("MainWindow", "Salsas", nullptr));
+        QListWidgetItem *___qlistwidgetitem2 = listWidget->item(2);
+        ___qlistwidgetitem2->setText(QApplication::translate("MainWindow", "Couve-Manteiga", nullptr));
+        QListWidgetItem *___qlistwidgetitem3 = listWidget->item(3);
+        ___qlistwidgetitem3->setText(QApplication::translate("MainWindow", "Mostarda", nullptr));
+        QListWidgetItem *___qlistwidgetitem4 = listWidget->item(4);
+        ___qlistwidgetitem4->setText(QApplication::translate("MainWindow", "Quiabos", nullptr));
+        QListWidgetItem *___qlistwidgetitem5 = listWidget->item(5);
+        ___qlistwidgetitem5->setText(QApplication::translate("MainWindow", "Rabanetes", nullptr));
+        listWidget->setSortingEnabled(__sortingEnabled);
+
         tabWidget->setTabText(tabWidget->indexOf(tab_2), QApplication::translate("MainWindow", "Recomenda\303\247\303\265es", nullptr));
     } // retranslateUi
 
