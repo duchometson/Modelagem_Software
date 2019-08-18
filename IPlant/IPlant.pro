@@ -26,13 +26,18 @@ CONFIG += c++11
 
 SOURCES += \
         main.cpp \
-        mainwindow.cpp
+        mainwindow.cpp \
+    adiciona.cpp \
+    ControllerManager.cpp
 
 HEADERS += \
-        mainwindow.h
+        mainwindow.h \
+    adiciona.h \
+    ControllerManager.h
 
 FORMS += \
-        mainwindow.ui
+        mainwindow.ui \
+    adiciona.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
