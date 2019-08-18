@@ -19,7 +19,7 @@ QVariant ControllerManager::getAllData() {
     }
     m_request.setUrl(source);
     m_manager->get(m_request);
-    return NULL;
+    return QVariant();
 }
 
 QVariant ControllerManager::getCurrentData() {
@@ -28,7 +28,7 @@ QVariant ControllerManager::getCurrentData() {
     m_request.setUrl(source);
     m_manager->get(m_request);
     //return m_buffer.constData();
-    return NULL;
+    return QVariant();
 }
 
 QVariant ControllerManager::getPos() {
@@ -36,7 +36,7 @@ QVariant ControllerManager::getPos() {
     QUrl source = QUrl("http://192.168.4.1/get_pos");
     m_request.setUrl(source);
     m_manager->get(m_request);
-    return NULL;
+    return QVariant();
 }
 
 void ControllerManager::reply(QNetworkReply *reply)
