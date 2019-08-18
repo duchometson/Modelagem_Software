@@ -1,7 +1,10 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <QNetworkReply>
 #include <QMainWindow>
+
+#include "ControllerManager.h"
 
 namespace Ui {
 class MainWindow;
@@ -20,13 +23,11 @@ private slots:
 
     void on_pushButton_2_clicked();
 
+    void updateLabels(QByteArray b);
 private:
-
-    QVariant getPos();
-    QVariant getCurrentData();
-    QVariant getAllData();
-
+    QByteArray m_buffer;
     Ui::MainWindow *ui;
+    QSharedPointer<ControllerManager> m_controlManager;
 };
 
 #endif // MAINWINDOW_H
