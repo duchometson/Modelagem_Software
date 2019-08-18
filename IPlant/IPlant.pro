@@ -6,6 +6,8 @@
 
 QT       += core gui
 QT       += network
+QT += quick
+QT += quickwidgets
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -46,3 +48,11 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+DISTFILES += \
+    ../../../../../../../Qt/Examples/Qt-5.13.0/charts/qmlaxes/qml/qmlaxes/View1.qml \
+    ../../../../../../../Qt/Examples/Qt-5.13.0/charts/qmlaxes/qml/qmlaxes/View2.qml \
+    ../../../../../../../Qt/Examples/Qt-5.13.0/charts/qmlaxes/qml/qmlaxes/View3.qml \
+    ../../../../../../../Qt/Examples/Qt-5.13.0/charts/qmlaxes/qml/qmlaxes/main.qml \
+    exemplo.qml \
+    iluminacao_grafico.qml

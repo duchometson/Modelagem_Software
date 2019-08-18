@@ -3,8 +3,9 @@
 
 #include <QNetworkReply>
 #include <QMainWindow>
-
+#include <QtWidgets>
 #include "ControllerManager.h"
+#include <QQuickWidget>
 
 namespace Ui {
 class MainWindow;
@@ -28,6 +29,7 @@ private:
     QByteArray m_buffer;
     Ui::MainWindow *ui;
     QSharedPointer<ControllerManager> m_controlManager;
+    QQuickWidget *m_quickWidget;
 };
 
 #endif // MAINWINDOW_H

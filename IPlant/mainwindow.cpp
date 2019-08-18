@@ -2,12 +2,15 @@
 #include "ui_mainwindow.h"
 #include "adiciona.h"
 #include <QTimer>
-
+#include <QQuickView>
+#include <QSize>
+#include <QQuickWidget>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
-    m_controlManager(new ControllerManager())
+    m_controlManager(new ControllerManager()),
+    m_quickWidget(new QQuickWidget(this))
 {
     ui->setupUi(this);
     connect(m_controlManager.data(),SIGNAL(replyReady(QByteArray)),
@@ -20,6 +23,19 @@ MainWindow::MainWindow(QWidget *parent) :
     QTimer *timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(on_pushButton_2_clicked()));
     timer->start(2000);
+
+//    m_quickWidget->resize(QSize(100,100));
+//    m_quickWidget->setResizeMode(QQuickWidget::SizeRootObjectToView );
+//    m_quickWidget->setSource(QUrl::fromLocalFile("exemplo.qml"));
+//    m_quickWidget->show();
+
+    //ui->quickWidget->resize(QSize(100,100));
+    ui->quickWidget->setResizeMode(QQuickWidget::SizeRootObjectToView );
+    ui->quickWidget->setSource(QUrl::fromLocalFile("main.qml"));
+    ui->quickWidget->show();
+
+
+
 }
 
 MainWindow::~MainWindow()
