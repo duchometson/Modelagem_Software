@@ -28,6 +28,10 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++11
 
 SOURCES += \
+    Dono.cpp \
+    Horta.cpp \
+    Plantacao.cpp \
+    Recomendacao.cpp \
     cnc.cpp \
         main.cpp \
         mainwindow.cpp \
@@ -35,6 +39,10 @@ SOURCES += \
     ControllerManager.cpp
 
 HEADERS += \
+    Dono.h \
+    Horta.h \
+    Plantacao.h \
+    Recomendacao.h \
     cnc.h \
         mainwindow.h \
     adiciona.h \
