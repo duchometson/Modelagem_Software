@@ -30,6 +30,8 @@ CONFIG += c++11
 SOURCES += \
     Dono.cpp \
     Horta.cpp \
+    JSONManager.cpp \
+    NovaHorta.cpp \
     Plantacao.cpp \
     Recomendacao.cpp \
     cnc.cpp \
@@ -41,6 +43,8 @@ SOURCES += \
 HEADERS += \
     Dono.h \
     Horta.h \
+    JSONManager.h \
+    NovaHorta.h \
     Plantacao.h \
     Recomendacao.h \
     cnc.h \
@@ -49,6 +53,7 @@ HEADERS += \
     ControllerManager.h
 
 FORMS += \
+    NovaHorta.ui \
         mainwindow.ui \
     adiciona.ui
 

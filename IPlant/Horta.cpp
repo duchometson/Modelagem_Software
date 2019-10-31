@@ -1,6 +1,7 @@
 #include "Horta.h"
 
-Horta::Horta( Dono dono,  Plantacao plantacao, QObject *parent) : QObject(parent)
+Horta::Horta( QString nome, Dono dono,  Plantacao plantacao, QObject *parent) : QObject(parent)
+  , m_nome(nome)
   , m_dono(dono)
   , m_plantacao(plantacao)
 {
@@ -24,4 +25,14 @@ Plantacao Horta::plantacao() const
 void Horta::setPlantacao(const Plantacao &plantacao)
 {
     m_plantacao = plantacao;
+}
+
+QString Horta::nome() const
+{
+    return m_nome;
+}
+
+void Horta::setNome(const QString &nome)
+{
+    m_nome = nome;
 }

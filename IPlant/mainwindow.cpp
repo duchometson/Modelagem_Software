@@ -1,6 +1,10 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+
 #include "adiciona.h"
+#include "JSONManager.h"
+#include "NovaHorta.h"
+
 #include <QTimer>
 #include <QQuickView>
 #include <QSize>
@@ -25,7 +29,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->temperatura_progressBar->setRange(20,30);
 
     QTimer *timer = new QTimer(this);
-    connect(timer, SIGNAL(timeout()), this, SLOT(on_pushButton_2_clicked()));
+    connect(timer, SIGNAL(timeout()), this, SLOT(aquireDataFromController()));
     timer->start(2000);
 
 //    m_quickWidget->resize(QSize(100,100));
@@ -44,13 +48,13 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::on_pushButton_clicked()
+void MainWindow::addPlantacao()
 {
-    Adiciona* a = new Adiciona(this);
+    Adiciona* a = new Adiciona( m_horta, this);
     a->exec();
 }
 
-void MainWindow::on_pushButton_2_clicked()
+void MainWindow::aquireDataFromController()
 {
     QVariant data = m_controlManager->getCurrentData();
 //    qDebug() << "botafogo: " << data.toString();
@@ -91,4 +95,23 @@ void MainWindow::updateLabels(QByteArray b) {
 void MainWindow::changeAquireStatus(bool shouldAquire)
 {
     m_controlManager->setShouldAquire(shouldAquire);
+}
+
+void MainWindow::registraNovaHorta(Horta horta)
+{
+    m_horta.reset(&horta);
+}
+
+void MainWindow::on_actionCarregar_Horta_triggered()
+{
+    QString fileName = QFileDialog::getOpenFileName( this, "Escolha Horta");
+    JSONManager jsManager;
+    QMap<QString, QVariant> jsonData = jsManager.load(fileName);
+}
+
+void MainWindow::on_actionNova_Horta_triggered()
+{
+    NovaHorta *nv;
+    connect(nv, SIGNAL(novaHorta(Horta)),
+            this, SLOT(regitrarNovaHorta(Horta)));
 }

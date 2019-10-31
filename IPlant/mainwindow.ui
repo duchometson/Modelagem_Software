@@ -390,6 +390,16 @@
      <height>25</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuArquivo">
+    <property name="title">
+     <string>Arquivo</string>
+    </property>
+    <addaction name="actionCarregar_Horta"/>
+    <addaction name="actionSalvar"/>
+    <addaction name="actionFechar"/>
+    <addaction name="actionNova_Horta"/>
+   </widget>
+   <addaction name="menuArquivo"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
@@ -400,6 +410,26 @@
    </attribute>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
+  <action name="actionCarregar_Horta">
+   <property name="text">
+    <string>Carregar Horta</string>
+   </property>
+  </action>
+  <action name="actionSalvar">
+   <property name="text">
+    <string>Salvar Horta</string>
+   </property>
+  </action>
+  <action name="actionFechar">
+   <property name="text">
+    <string>Sair</string>
+   </property>
+  </action>
+  <action name="actionNova_Horta">
+   <property name="text">
+    <string>Nova Horta</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
