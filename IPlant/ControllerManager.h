@@ -15,16 +15,21 @@ public:
     QVariant getCurrentData();
     QVariant getAllData();
 
+    int getShouldAquire() const;
+    void setShouldAquire(int shouldRequire);
+
 private:
     QByteArray m_buffer;
     QNetworkAccessManager * m_manager;
     QNetworkRequest m_request;
+    int m_shouldAquire;
 
 signals:
     void replyReady(QByteArray b);
 
 private slots:
     void reply(QNetworkReply* r);
+
 
 };
 

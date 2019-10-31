@@ -4,38 +4,44 @@
 #include <QUrl>
 
 ControllerManager::ControllerManager() :
-    m_manager( new QNetworkAccessManager())
+    m_manager( new QNetworkAccessManager()),
+    m_shouldAquire(false)
 {
     connect(m_manager, SIGNAL(finished(QNetworkReply*)),
             this, SLOT(reply(QNetworkReply*)));
 }
 
 QVariant ControllerManager::getAllData() {
-
-    m_buffer.clear();
-    QUrl source = QUrl("http://192.168.4.1/get_data");
-    if (source.isValid()) {
-        qDebug() << "URL VALIDA";
+    if( m_shouldAquire ) {
+        m_buffer.clear();
+        QUrl source = QUrl("http://192.168.4.1/get_data");
+        if (source.isValid()) {
+            qDebug() << "URL VALIDA";
+        }
+        m_request.setUrl(source);
+        m_manager->get(m_request);
     }
-    m_request.setUrl(source);
-    m_manager->get(m_request);
     return QVariant();
 }
 
 QVariant ControllerManager::getCurrentData() {
-    m_buffer.clear();
-    QUrl source = QUrl("http://192.168.4.1/get_ins");
-    m_request.setUrl(source);
-    m_manager->get(m_request);
-    //return m_buffer.constData();
+    if( m_shouldAquire ) {
+        m_buffer.clear();
+        QUrl source = QUrl("http://192.168.4.1/get_ins");
+        m_request.setUrl(source);
+        m_manager->get(m_request);
+        //return m_buffer.constData();
+    }
     return QVariant();
 }
 
 QVariant ControllerManager::getPos() {
-    m_buffer.clear();
-    QUrl source = QUrl("http://192.168.4.1/get_pos");
-    m_request.setUrl(source);
-    m_manager->get(m_request);
+    if( m_shouldAquire ) {
+        m_buffer.clear();
+        QUrl source = QUrl("http://192.168.4.1/get_pos");
+        m_request.setUrl(source);
+        m_manager->get(m_request);
+    }
     return QVariant();
 }
 
@@ -59,4 +65,14 @@ void ControllerManager::reply(QNetworkReply *reply)
 
     qDebug() << bytes;
     emit replyReady(bytes);
+}
+
+int ControllerManager::getShouldAquire() const
+{
+    return m_shouldAquire;
+}
+
+void ControllerManager::setShouldAquire(int shouldAquire)
+{
+    m_shouldAquire = shouldAquire;
 }

@@ -15,7 +15,11 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     connect(m_controlManager.data(),SIGNAL(replyReady(QByteArray)),
             this,SLOT(updateLabels(QByteArray)));
+    connect(ui->aquireButton, SIGNAL(clicked(bool)),
+            this, SLOT(changeAquireStatus(bool)));
 
+    ui->aquireButton->setChecked(false);
+    ui->aquireButton->setCheckable(true);
     ui->iluminacao_progressBar->setRange(0,100);
     ui->umidade_progressBar->setRange(0,200);
     ui->temperatura_progressBar->setRange(20,30);
@@ -33,9 +37,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->quickWidget->setResizeMode(QQuickWidget::SizeRootObjectToView );
     ui->quickWidget->setSource(QUrl::fromLocalFile("main.qml"));
     ui->quickWidget->show();
-
-
-
 }
 
 MainWindow::~MainWindow()
@@ -85,4 +86,9 @@ void MainWindow::updateLabels(QByteArray b) {
     ui->temperaturaLabel->setText(list.at(2));
     ui->temperatura_progressBar->setValue(chop.at(0).toInt());
 
+}
+
+void MainWindow::changeAquireStatus(bool shouldAquire)
+{
+    m_controlManager->setShouldAquire(shouldAquire);
 }

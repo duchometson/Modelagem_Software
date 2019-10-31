@@ -25,6 +25,8 @@ private slots:
     void on_pushButton_2_clicked();
 
     void updateLabels(QByteArray b);
+
+    void changeAquireStatus(bool state);
 private:
     QByteArray m_buffer;
     Ui::MainWindow *ui;
