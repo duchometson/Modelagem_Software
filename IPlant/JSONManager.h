@@ -11,7 +11,7 @@ public:
     JSONManager();
 
     QMap<QString,QVariant> load(const QString& fileName );
-    bool write( QMap<QVariant,QVariant> data, const QString& fileName );
+    bool write( QList<QMap<QString, QString>> data, const QString& fileName );
 };
 
 #endif // JSONMANAGER_H

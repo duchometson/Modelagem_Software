@@ -48,12 +48,6 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::addPlantacao()
-{
-    Adiciona* a = new Adiciona( m_horta, this);
-    a->exec();
-}
-
 void MainWindow::aquireDataFromController()
 {
     QVariant data = m_controlManager->getCurrentData();
@@ -97,9 +91,9 @@ void MainWindow::changeAquireStatus(bool shouldAquire)
     m_controlManager->setShouldAquire(shouldAquire);
 }
 
-void MainWindow::registraNovaHorta(Horta horta)
+void MainWindow::registraNovaHorta(Horta *horta)
 {
-    m_horta.reset(&horta);
+    m_horta.reset(horta);
 }
 
 void MainWindow::on_actionCarregar_Horta_triggered()
@@ -111,7 +105,29 @@ void MainWindow::on_actionCarregar_Horta_triggered()
 
 void MainWindow::on_actionNova_Horta_triggered()
 {
-    NovaHorta *nv;
-    connect(nv, SIGNAL(novaHorta(Horta)),
-            this, SLOT(regitrarNovaHorta(Horta)));
+    NovaHorta *nv = new NovaHorta();
+    connect(nv, SIGNAL(novaHorta(Horta*)),
+            this, SLOT(registraNovaHorta(Horta*)));
+    nv->open();
+}
+
+void MainWindow::on_addPushButton_clicked()
+{
+    Adiciona* a = new Adiciona( m_horta, this);
+    a->exec();
+    if( !m_horta->plantacao().empty() ) {
+        for( int i = 0; i < m_horta->plantacao().size(); i++) {
+            qDebug() << m_horta->plantacao().at(i).nome() << "\n";
+            ui->plantacoesComboBox->addItem( m_horta->plantacao().at(i).nome());
+        }
+    }
+}
+
+void MainWindow::on_actionSalvar_triggered()
+{
+    QString fileName = QFileDialog::getOpenFileName( this, "Salva Horta");
+    JSONManager jsManager;
+    QList<QMap<QString, QString>> data = m_horta->mappedData();
+    jsManager.write( data, fileName );
+    //QMap<QString, QVariant> jsonData = jsManager.write()
 }

@@ -1,9 +1,9 @@
 #include "Horta.h"
+#include <QDebug>
 
 Horta::Horta( QString nome, Dono dono,  Plantacao plantacao, QObject *parent) : QObject(parent)
   , m_nome(nome)
   , m_dono(dono)
-  , m_plantacao(plantacao)
 {
 }
 
@@ -17,14 +17,20 @@ void Horta::setDono(const Dono &dono)
     m_dono = dono;
 }
 
-Plantacao Horta::plantacao() const
+QList<Plantacao> Horta::plantacao() const
 {
     return m_plantacao;
 }
 
-void Horta::setPlantacao(const Plantacao &plantacao)
+void Horta::setPlantacao(const QList<Plantacao> &plantacao)
 {
     m_plantacao = plantacao;
+}
+
+void Horta::addPlantacao(Plantacao plantacao)
+{
+    qDebug() << "Adicionando " << plantacao.nome();
+    m_plantacao.append(plantacao);
 }
 
 QString Horta::nome() const
@@ -35,4 +41,17 @@ QString Horta::nome() const
 void Horta::setNome(const QString &nome)
 {
     m_nome = nome;
+}
+
+QList<QMap<QString, QString>> Horta::mappedData() {
+    QList<QMap<QString, QString>> ret;
+    QMap<QString, QString> hortaData;
+    hortaData.insert( "Horta." + m_nome + ".nome", m_nome );
+    hortaData.insert( "dono." + m_dono.nome() + ".nome", m_dono.nome() );
+    hortaData.insert( "dono." + m_dono.nome() + ".habilidade", QString("%1").arg(m_dono.nivelConhecimento()) );
+    ret.append(hortaData);
+    for( int i = 0; i < m_plantacao.size(); i++ ) {
+        ret.append( m_plantacao.at(i).mappedData() );
+    }
+    return ret;
 }

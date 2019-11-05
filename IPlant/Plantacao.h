@@ -2,11 +2,14 @@
 #define PLANTACAO_H
 
 #include <QObject>
+#include <QDateTime>
 
 class Plantacao
 {
 public:
-    explicit Plantacao(QObject *parent = nullptr);
+    explicit Plantacao(QString nome, int quantidade, int nivelAntencao, QDateTime dataPlantio, QObject *parent = nullptr);
+
+    explicit Plantacao( QObject *parent = nullptr );
 
     QString nome() const;
     void setNome(const QString &nome);
@@ -17,6 +20,11 @@ public:
     int nivelAtencao() const;
     void setNivelAtencao(int nivelAtencao);
 
+    QDateTime ultimaRegada() const;
+    void atualizaRegada();
+
+    QMap<QString, QString> mappedData() const;
+
 signals:
 
 public slots:
@@ -25,6 +33,7 @@ private:
     QString m_nome;
     int m_quantidade;
     int m_nivelAtencao;
+    QDateTime m_dataPlantio;
+    QDateTime m_ultimaRegada;
 };
-
 #endif // PLANTACAO_H

@@ -31,18 +31,19 @@ QMap<QString, QVariant> JSONManager::load(const QString &fileName)
     return ret;
 }
 
-bool JSONManager::write(QMap<QVariant, QVariant> data, const QString &fileName)
+bool JSONManager::write(QList<QMap<QString, QString>> data, const QString &fileName)
 {
     QFile file(fileName);
     bool ret = false;
     if( file.exists() ) {
         QJsonObject jsObj;
-        for (QVariant key : data.keys() ) {
-            jsObj[key.toString()] = data.value(key).toString();
+        for (QMap<QString,QString> mappedData : data ) {
+            for (QString key : mappedData.keys() ) {
+                jsObj[key] = mappedData.value(key);
+            }
         }
         QJsonDocument jsDoc;
         jsDoc.setObject(jsObj);
-
         if( jsDoc.isEmpty() ) {
             QMessageBox::warning( NULL , "Erro na gravação", "Não existem elementos criados para ser gravados", QMessageBox::Ok );
             ret = false;

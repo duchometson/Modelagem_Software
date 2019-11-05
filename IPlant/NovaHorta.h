@@ -20,7 +20,9 @@ private:
     Ui::NovaHorta *ui;
 
 signals:
-    void novaHorta( Horta horta );
+    void novaHorta( Horta *horta );
+private slots:
+    void on_buttonBox_accepted();
 };
 
 #endif // NOVAHORTA_H

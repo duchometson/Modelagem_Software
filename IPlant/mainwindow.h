@@ -22,19 +22,21 @@ public:
     ~MainWindow();
 
 private slots:
-    void addPlantacao();
-
     void aquireDataFromController();
 
     void updateLabels(QByteArray b);
 
     void changeAquireStatus(bool state);
 
-    void registraNovaHorta( Horta horta );
+    void registraNovaHorta( Horta *horta );
 
     void on_actionCarregar_Horta_triggered();
 
     void on_actionNova_Horta_triggered();
+
+    void on_addPushButton_clicked();
+
+    void on_actionSalvar_triggered();
 
 private:
     QByteArray m_buffer;

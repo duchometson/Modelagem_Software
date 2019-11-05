@@ -18,9 +18,11 @@ public:
     Dono dono() const;
     void setDono(const Dono &dono);
 
-    Plantacao plantacao() const;
-    void setPlantacao(const Plantacao &plantacao);
+    QList<Plantacao> plantacao() const;
+    void setPlantacao(const QList<Plantacao> &plantacao);
+    void addPlantacao(Plantacao plantacao);
 
+    QList<QMap<QString, QString>> mappedData();
 
 signals:
 
@@ -29,7 +31,7 @@ public slots:
 private:
     QString m_nome;
     Dono m_dono;
-    Plantacao m_plantacao;
+    QList<Plantacao> m_plantacao;
 };
 
 #endif // HORTA_H
