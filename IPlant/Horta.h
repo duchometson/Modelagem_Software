@@ -19,6 +19,7 @@ public:
     void setDono(const Dono &dono);
 
     QList<Plantacao> plantacao() const;
+    Plantacao plantacaoPorNome( QString nome ) const;
     void setPlantacao(const QList<Plantacao> &plantacao);
     void addPlantacao(Plantacao plantacao);
 

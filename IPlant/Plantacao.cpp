@@ -60,6 +60,6 @@ QMap<QString, QString> Plantacao::mappedData() const {
     ret.insert( "plantacao." + m_nome + ".nome", m_nome );
     ret.insert( "plantacao." + m_nome + ".quantidade", QString("%1").arg(m_quantidade) );
     ret.insert( "plantacao." + m_nome + ".atencao", QString("%1").arg(m_nivelAtencao) );
-    ret.insert( "plantacao." + m_nome + ".regado", QString("%1").arg(m_ultimaRegada.toMSecsSinceEpoch()));
+    ret.insert( "plantacao." + m_nome + ".regado", QString("%1").arg(m_ultimaRegada.toSecsSinceEpoch()));
     return ret;
 }

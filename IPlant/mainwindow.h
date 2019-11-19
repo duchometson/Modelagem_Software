@@ -38,7 +38,12 @@ private slots:
 
     void on_actionSalvar_triggered();
 
+    void on_plantacoesComboBox_currentTextChanged(const QString &arg1);
+
 private:
+    void updateFields();
+    void resetFields();
+
     QByteArray m_buffer;
     Ui::MainWindow *ui;
     QSharedPointer<ControllerManager> m_controlManager;

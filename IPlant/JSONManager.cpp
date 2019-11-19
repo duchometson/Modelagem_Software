@@ -19,14 +19,15 @@ JSONManager::JSONManager()
 QMap<QString, QVariant> JSONManager::load(const QString &fileName)
 {
     QFile file(fileName);
+    file.open(QIODevice::ReadOnly | QIODevice::Text);
     QMap<QString,QVariant> ret;
     if( file.exists() ) {
-        QJsonObject jsObj;
         QJsonDocument jsDoc;
-        jsDoc.fromJson(file.readAll());
-
-        QVariant variantList = jsDoc.toVariant();
-        ret = variantList.toMap();
+        QString val = file.readAll();
+        file.close();
+        jsDoc = QJsonDocument::fromJson(val.toUtf8());
+        QJsonObject jsonObj = jsDoc.object();
+        ret = jsonObj.toVariantMap();
     }
     return ret;
 }

@@ -10,6 +10,8 @@
 #include <QSize>
 #include <QQuickWidget>
 
+#define SECS_IN_A_DAY 86400
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
@@ -22,6 +24,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->aquireButton, SIGNAL(clicked(bool)),
             this, SLOT(changeAquireStatus(bool)));
 
+    ui->actionSalvar->setEnabled(false);
+    ui->actionFechar->setEnabled(false);
     ui->aquireButton->setChecked(false);
     ui->aquireButton->setCheckable(true);
     ui->iluminacao_progressBar->setRange(0,100);
@@ -94,6 +98,11 @@ void MainWindow::changeAquireStatus(bool shouldAquire)
 void MainWindow::registraNovaHorta(Horta *horta)
 {
     m_horta.reset(horta);
+    QString dir = QFileDialog::getExistingDirectory();
+    QFile file(dir + "/" + m_horta->nome() + ".json");
+    file.open( QIODevice::WriteOnly );
+    file.write("");
+    file.close();
 }
 
 void MainWindow::on_actionCarregar_Horta_triggered()
@@ -101,6 +110,70 @@ void MainWindow::on_actionCarregar_Horta_triggered()
     QString fileName = QFileDialog::getOpenFileName( this, "Escolha Horta");
     JSONManager jsManager;
     QMap<QString, QVariant> jsonData = jsManager.load(fileName);
+    QList<QString> plantacaoLida;
+    int contadorPlantacao = 0;
+    QString nomeDono;
+    QString cidadeDono;
+    QString paisDono;
+    QString conhecimentoDono;
+    QString hortaName;
+    for( QString key : jsonData.keys() ) {
+        if( key.contains("Horta") ) {
+            hortaName = jsonData.value(key).toString();
+        }
+        if( key.contains("dono") ) {
+            if( key.contains("nome") ) {
+                nomeDono = jsonData.value(key).toString();
+            } else if( key.contains("cidade") ) {
+                cidadeDono = jsonData.value(key).toString();
+            } else if( key.contains("pais") ) {
+                paisDono = jsonData.value(key).toString();
+            } else if( key.contains("habilidade") ) {
+                conhecimentoDono = jsonData.value(key).toString();
+            }
+        }
+        if( key.contains("plantacao" ) ) {
+            if( key.contains("nome") ) {
+                plantacaoLida.append(jsonData.value(key).toString());
+                contadorPlantacao++;
+            }
+        }
+    }
+    QList<Plantacao> listPlantacao;
+    int itensCount = 0;
+    Plantacao plantacao;
+    QVariant atencao;
+    QVariant quantidade;
+    QVariant regado;
+    for( QString key : jsonData.keys() ) {
+        for( QString nome : plantacaoLida ) {
+            if( key.contains(nome) ) {
+                itensCount++;
+                if( key.contains("atencao")) {
+                    atencao = jsonData.value(key);
+                } else if( key.contains("quantidade") ) {
+                    quantidade = jsonData.value(key);
+                } else if( key.contains("regado") ) {
+                    regado = jsonData.value(key);
+                }
+                if( itensCount == 4) {
+                    plantacao = Plantacao( nome, quantidade.toInt(), atencao.toInt(), QDateTime::fromMSecsSinceEpoch(regado.toInt()) );
+                    listPlantacao.append(plantacao);
+                    itensCount = 0;
+                    contadorPlantacao--;
+                }
+            }
+        }
+    }
+    Dono dono = Dono(nomeDono, cidadeDono, paisDono, conhecimentoDono.toInt());
+    m_horta.reset(new Horta( hortaName, dono ));
+    for( Plantacao plant : listPlantacao ) {
+        m_horta->addPlantacao(plant);
+    }
+    resetFields();
+    updateFields();
+    ui->actionSalvar->setEnabled(true);
+    ui->actionFechar->setEnabled(true);
 }
 
 void MainWindow::on_actionNova_Horta_triggered()
@@ -109,6 +182,8 @@ void MainWindow::on_actionNova_Horta_triggered()
     connect(nv, SIGNAL(novaHorta(Horta*)),
             this, SLOT(registraNovaHorta(Horta*)));
     nv->open();
+    ui->actionSalvar->setEnabled(true);
+    ui->actionFechar->setEnabled(true);
 }
 
 void MainWindow::on_addPushButton_clicked()
@@ -116,10 +191,8 @@ void MainWindow::on_addPushButton_clicked()
     Adiciona* a = new Adiciona( m_horta, this);
     a->exec();
     if( !m_horta->plantacao().empty() ) {
-        for( int i = 0; i < m_horta->plantacao().size(); i++) {
-            qDebug() << m_horta->plantacao().at(i).nome() << "\n";
-            ui->plantacoesComboBox->addItem( m_horta->plantacao().at(i).nome());
-        }
+        resetFields();
+        updateFields();
     }
 }
 
@@ -129,5 +202,31 @@ void MainWindow::on_actionSalvar_triggered()
     JSONManager jsManager;
     QList<QMap<QString, QString>> data = m_horta->mappedData();
     jsManager.write( data, fileName );
-    //QMap<QString, QVariant> jsonData = jsManager.write()
+}
+
+void MainWindow::updateFields() {
+    QString currentPlantacao = ui->plantacoesComboBox->currentText();
+    ui->plantacaoLabel->setText( m_horta->plantacaoPorNome(currentPlantacao).nome() );
+    ui->quantidadeLabel->setText( QString("%1").arg(m_horta->plantacaoPorNome(currentPlantacao).quantidade()) );
+    if( QDateTime::currentSecsSinceEpoch() - m_horta->plantacaoPorNome(currentPlantacao).ultimaRegada().toSecsSinceEpoch() > SECS_IN_A_DAY ) {
+        ui->regadoLabel->setText("Sim");
+    } else {
+        ui->regadoLabel->setText("Não");
+    }
+}
+
+void MainWindow::resetFields() {
+    ui->plantacoesComboBox->clear();
+    ui->plantacaoLabel->clear();
+    ui->quantidadeLabel->clear();
+    ui->regadoLabel->clear();
+    for( int i = 0; i < m_horta->plantacao().size(); i++) {
+        qDebug() << m_horta->plantacao().at(i).nome() << "\n";
+        ui->plantacoesComboBox->addItem( m_horta->plantacao().at(i).nome());
+    }
+}
+
+void MainWindow::on_plantacoesComboBox_currentTextChanged(const QString &arg1)
+{
+    //updateFields();
 }
