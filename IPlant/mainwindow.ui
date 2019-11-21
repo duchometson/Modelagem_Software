@@ -18,7 +18,7 @@
     <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>0</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
@@ -341,9 +341,9 @@
             </spacer>
            </item>
            <item>
-            <widget class="QLineEdit" name="lineEdit">
+            <widget class="QLabel" name="cidadeLabel">
              <property name="text">
-              <string>Rio de Janeiro - RJ</string>
+              <string>.</string>
              </property>
             </widget>
            </item>
@@ -405,38 +405,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QListWidget" name="listWidget">
-           <item>
-            <property name="text">
-             <string>Chicórias.</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Salsas</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Couve-Manteiga</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Mostarda</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Quiabos</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Rabanetes</string>
-            </property>
-           </item>
-          </widget>
+          <widget class="QListWidget" name="recomendacoesLista"/>
          </item>
         </layout>
        </widget>

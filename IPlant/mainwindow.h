@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include "Horta.h"
+#include "Recomendacao.h"
 
 #include <QNetworkReply>
 #include <QMainWindow>
@@ -48,6 +49,8 @@ private:
     void updateFields();
     void resetFields();
     void noHortaSetup();
+    void recomendacoesPadroes();
+    void atualizaRecomendacoes();
 
     void salvar();
 
@@ -56,6 +59,7 @@ private:
     QSharedPointer<ControllerManager> m_controlManager;
     QQuickWidget *m_quickWidget;
     QSharedPointer<Horta> m_horta;
+    QHash<QString,Recomendacao> m_recomendacao;
 };
 
 #endif // MAINWINDOW_H

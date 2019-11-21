@@ -58,7 +58,14 @@
          </widget>
         </item>
         <item>
-         <widget class="QLineEdit" name="cidadeLineEdit"/>
+         <widget class="QComboBox" name="cidadeComboBox">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+         </widget>
         </item>
        </layout>
       </item>
@@ -72,7 +79,11 @@
          </widget>
         </item>
         <item>
-         <widget class="QLineEdit" name="paisLineEdit"/>
+         <widget class="QLineEdit" name="paisLineEdit">
+          <property name="text">
+           <string>Brasil</string>
+          </property>
+         </widget>
         </item>
        </layout>
       </item>

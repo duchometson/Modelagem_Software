@@ -19,6 +19,7 @@ MainWindow::MainWindow(QWidget *parent) :
     m_quickWidget(new QQuickWidget(this))
 {
     ui->setupUi(this);
+    recomendacoesPadroes();
     connect(m_controlManager.data(),SIGNAL(replyReady(QByteArray)),
             this,SLOT(updateLabels(QByteArray)));
     connect(ui->aquireButton, SIGNAL(clicked(bool)),
@@ -218,6 +219,10 @@ void MainWindow::updateFields() {
             ui->regadoLabel->setText("Não");
         }
     }
+    atualizaRecomendacoes();
+    if( !m_horta.isNull() ) {
+        ui->cidadeLabel->setText( m_horta->dono().cidade() );
+    }
 }
 
 void MainWindow::resetFields() {
@@ -259,4 +264,23 @@ void MainWindow::salvar() {
     JSONManager jsManager;
     QList<QMap<QString, QString>> data = m_horta->mappedData();
     jsManager.write( data, fileName );
+}
+
+void MainWindow::recomendacoesPadroes() {
+    m_recomendacao.insert("Florianópolis", Recomendacao("Maça", "Verão", "Morno", "Alto", "26º", "Alta" ));
+    m_recomendacao.insert("Florianópolis", Recomendacao("Milho", "Inverno", "Frio", "Baixa", "12º", "Média" ));
+    m_recomendacao.insert("Rio de Janeiro", Recomendacao("Banana", "Todas", "Todas", "Todas", "Todas", "Todas" ));
+    m_recomendacao.insert("Rio de Janeiro", Recomendacao("Tomate", "Inverno", "Ameno", "Média", "20º", "Média" ));
+    m_recomendacao.insert("Rio de Janeiro", Recomendacao("Uva", "Inverno", "Ameno", "Média", "20º", "Média" ));
+    m_recomendacao.insert("Natal", Recomendacao("Manga", "Verão", "Quente", "Alta", "30º", "Média" ));
+    m_recomendacao.insert("Natal", Recomendacao("Feijão", "Primavera", "Morno", "Alta", "25º", "Média" ));
+    m_recomendacao.insert("Manaus", Recomendacao("Milho", "Inverno", "Quente", "Alta", "27º", "Média" ));
+    m_recomendacao.insert("Manaus", Recomendacao("Maracujá", "Todas", "Todas", "Todas", "Todas", "Todas" ));
+}
+
+void MainWindow::atualizaRecomendacoes() {
+    ui->recomendacoesLista->clear();
+    for( Recomendacao r : m_recomendacao.values(m_horta->dono().cidade())) {
+        ui->recomendacoesLista->addItem(r.plantacao());
+    }
 }

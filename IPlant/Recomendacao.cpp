@@ -1,6 +1,12 @@
 #include "Recomendacao.h"
 
-Recomendacao::Recomendacao()
+Recomendacao::Recomendacao( QString plantacao, QString estacao, QString clima, QString umidade, QString temperatura, QString luminosidade ) :
+    m_plantacao(plantacao)
+  , m_estacao(estacao)
+  , m_clima(clima)
+  , m_umidade(umidade)
+  , m_temperatura(temperatura)
+  , m_luminosidade(luminosidade)
 {
 
 }
@@ -53,4 +59,14 @@ QString Recomendacao::luminosidade() const
 void Recomendacao::setLuminosidade(const QString &luminosidade)
 {
     m_luminosidade = luminosidade;
+}
+
+QString Recomendacao::plantacao() const
+{
+    return m_plantacao;
+}
+
+void Recomendacao::setPlantacao(const QString &plantacao)
+{
+    m_plantacao = plantacao;
 }
