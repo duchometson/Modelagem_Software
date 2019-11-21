@@ -52,7 +52,8 @@ QDateTime Plantacao::ultimaRegada() const
 
 void Plantacao::atualizaRegada()
 {
-    m_ultimaRegada = QDateTime::currentDateTime();
+    QDateTime dt = QDateTime::currentDateTime();
+    m_ultimaRegada = dt;
 }
 
 QMap<QString, QString> Plantacao::mappedData() const {
@@ -60,6 +61,22 @@ QMap<QString, QString> Plantacao::mappedData() const {
     ret.insert( "plantacao." + m_nome + ".nome", m_nome );
     ret.insert( "plantacao." + m_nome + ".quantidade", QString("%1").arg(m_quantidade) );
     ret.insert( "plantacao." + m_nome + ".atencao", QString("%1").arg(m_nivelAtencao) );
+    ret.insert( "plantacao." + m_nome + ".plantado", QString("%1").arg(m_dataPlantio.toSecsSinceEpoch()));
     ret.insert( "plantacao." + m_nome + ".regado", QString("%1").arg(m_ultimaRegada.toSecsSinceEpoch()));
     return ret;
+}
+
+QDateTime Plantacao::dataPlantio() const
+{
+    return m_dataPlantio;
+}
+
+void Plantacao::setDataPlantio(const QDateTime &dataPlantio)
+{
+    m_dataPlantio = dataPlantio;
+}
+
+void Plantacao::setUltimaRegada(const QDateTime &ultimaRegada)
+{
+    m_ultimaRegada = ultimaRegada;
 }

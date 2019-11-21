@@ -40,9 +40,16 @@ private slots:
 
     void on_plantacoesComboBox_currentTextChanged(const QString &arg1);
 
+    void on_regarButton_clicked();
+
+    void on_actionFechar_triggered();
+
 private:
     void updateFields();
     void resetFields();
+    void noHortaSetup();
+
+    void salvar();
 
     QByteArray m_buffer;
     Ui::MainWindow *ui;

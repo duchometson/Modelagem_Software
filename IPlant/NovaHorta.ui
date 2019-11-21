@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>376</height>
+    <height>296</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -73,20 +73,6 @@
         </item>
         <item>
          <widget class="QLineEdit" name="paisLineEdit"/>
-        </item>
-       </layout>
-      </item>
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_5">
-        <item>
-         <widget class="QLabel" name="label_4">
-          <property name="text">
-           <string>Nível Conhecimento(0-10):</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QSpinBox" name="nivelConhecimento"/>
         </item>
        </layout>
       </item>

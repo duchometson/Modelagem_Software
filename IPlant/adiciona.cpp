@@ -9,6 +9,7 @@ Adiciona::Adiciona( QSharedPointer<Horta> horta, QWidget *parent ) :
     ui(new Ui::Adiciona)
 {
     ui->setupUi(this);
+    ui->dateEdit->setDateTime(QDateTime::currentDateTime());
 }
 
 Adiciona::~Adiciona()
@@ -18,6 +19,7 @@ Adiciona::~Adiciona()
 
 void Adiciona::on_buttonBox_accepted()
 {
+    QDateTime dt = ui->dateEdit->dateTime();
     Plantacao plant( ui->plantacaoLineEdit->text(), ui->quantidadeComboBox->value(),
                      ui->atentionNivel->value(), ui->dateEdit->dateTime());
     m_horta->addPlantacao(plant);

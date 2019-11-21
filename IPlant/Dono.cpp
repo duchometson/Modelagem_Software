@@ -1,10 +1,9 @@
 #include "Dono.h"
 
-Dono::Dono( QString nome, QString cidade, QString pais, int nivelConhecimento, QObject *parent)
+Dono::Dono( QString nome, QString cidade, QString pais, QObject *parent)
     : m_nome(nome)
     , m_cidade(cidade)
     , m_pais(pais)
-    , m_nivelConhecimento(nivelConhecimento)
 {
 
 }
@@ -37,14 +36,4 @@ QString Dono::pais() const
 void Dono::setPais(const QString &pais)
 {
     m_pais = pais;
-}
-
-int Dono::nivelConhecimento() const
-{
-    return m_nivelConhecimento;
-}
-
-void Dono::setNivelConhecimento(int nivelConhecimento)
-{
-    m_nivelConhecimento = nivelConhecimento;
 }

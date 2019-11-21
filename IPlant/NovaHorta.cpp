@@ -15,7 +15,7 @@ NovaHorta::~NovaHorta()
 
 void NovaHorta::on_buttonBox_accepted()
 {
-    Dono dono( ui->donoNomeLineEdit->text(), ui->cidadeLineEdit->text(), ui->paisLineEdit->text(), ui->nivelConhecimento->value() );
+    Dono dono( ui->donoNomeLineEdit->text(), ui->cidadeLineEdit->text(), ui->paisLineEdit->text() );
     Horta *horta = new Horta( ui->nomeHortaLineEdit->text(), dono );
     emit novaHorta(horta);
 }

@@ -24,9 +24,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->aquireButton, SIGNAL(clicked(bool)),
             this, SLOT(changeAquireStatus(bool)));
 
-    ui->actionSalvar->setEnabled(false);
-    ui->actionFechar->setEnabled(false);
-    ui->aquireButton->setChecked(false);
+    noHortaSetup();
     ui->aquireButton->setCheckable(true);
     ui->iluminacao_progressBar->setRange(0,100);
     ui->umidade_progressBar->setRange(0,200);
@@ -52,14 +50,16 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::noHortaSetup() {
+    ui->tabWidget->setEnabled(false);
+    ui->actionSalvar->setEnabled(false);
+    ui->actionFechar->setEnabled(false);
+    ui->aquireButton->setChecked(false);
+}
+
 void MainWindow::aquireDataFromController()
 {
     QVariant data = m_controlManager->getCurrentData();
-//    qDebug() << "botafogo: " << data.toString();
-//    QStringList dataListed = data.toString().split(",");
-//    ui->iluminacaoLabel->setText(dataListed.at(0));
-//    ui->umidadeLabel->setText(dataListed.at(1));
-//    ui->temperaturaLabel->setText(dataListed.at(2));
 }
 
 void MainWindow::updateLabels(QByteArray b) {
@@ -128,8 +128,6 @@ void MainWindow::on_actionCarregar_Horta_triggered()
                 cidadeDono = jsonData.value(key).toString();
             } else if( key.contains("pais") ) {
                 paisDono = jsonData.value(key).toString();
-            } else if( key.contains("habilidade") ) {
-                conhecimentoDono = jsonData.value(key).toString();
             }
         }
         if( key.contains("plantacao" ) ) {
@@ -145,6 +143,7 @@ void MainWindow::on_actionCarregar_Horta_triggered()
     QVariant atencao;
     QVariant quantidade;
     QVariant regado;
+    QVariant plantado;
     for( QString key : jsonData.keys() ) {
         for( QString nome : plantacaoLida ) {
             if( key.contains(nome) ) {
@@ -155,9 +154,12 @@ void MainWindow::on_actionCarregar_Horta_triggered()
                     quantidade = jsonData.value(key);
                 } else if( key.contains("regado") ) {
                     regado = jsonData.value(key);
+                } else if( key.contains("plantado") ) {
+                    plantado = jsonData.value(key);
                 }
                 if( itensCount == 4) {
-                    plantacao = Plantacao( nome, quantidade.toInt(), atencao.toInt(), QDateTime::fromMSecsSinceEpoch(regado.toInt()) );
+                    plantacao = Plantacao( nome, quantidade.toInt(), atencao.toInt(), QDateTime::fromSecsSinceEpoch(plantado.toInt()) );
+                    plantacao.setUltimaRegada(QDateTime::fromSecsSinceEpoch(regado.toInt()));
                     listPlantacao.append(plantacao);
                     itensCount = 0;
                     contadorPlantacao--;
@@ -165,13 +167,14 @@ void MainWindow::on_actionCarregar_Horta_triggered()
             }
         }
     }
-    Dono dono = Dono(nomeDono, cidadeDono, paisDono, conhecimentoDono.toInt());
+    Dono dono = Dono(nomeDono, cidadeDono, paisDono);
     m_horta.reset(new Horta( hortaName, dono ));
     for( Plantacao plant : listPlantacao ) {
         m_horta->addPlantacao(plant);
     }
     resetFields();
     updateFields();
+    ui->tabWidget->setEnabled(true);
     ui->actionSalvar->setEnabled(true);
     ui->actionFechar->setEnabled(true);
 }
@@ -182,6 +185,7 @@ void MainWindow::on_actionNova_Horta_triggered()
     connect(nv, SIGNAL(novaHorta(Horta*)),
             this, SLOT(registraNovaHorta(Horta*)));
     nv->open();
+    ui->tabWidget->setEnabled(true);
     ui->actionSalvar->setEnabled(true);
     ui->actionFechar->setEnabled(true);
 }
@@ -198,20 +202,21 @@ void MainWindow::on_addPushButton_clicked()
 
 void MainWindow::on_actionSalvar_triggered()
 {
-    QString fileName = QFileDialog::getOpenFileName( this, "Salva Horta");
-    JSONManager jsManager;
-    QList<QMap<QString, QString>> data = m_horta->mappedData();
-    jsManager.write( data, fileName );
+    salvar();
 }
 
 void MainWindow::updateFields() {
     QString currentPlantacao = ui->plantacoesComboBox->currentText();
-    ui->plantacaoLabel->setText( m_horta->plantacaoPorNome(currentPlantacao).nome() );
-    ui->quantidadeLabel->setText( QString("%1").arg(m_horta->plantacaoPorNome(currentPlantacao).quantidade()) );
-    if( QDateTime::currentSecsSinceEpoch() - m_horta->plantacaoPorNome(currentPlantacao).ultimaRegada().toSecsSinceEpoch() > SECS_IN_A_DAY ) {
-        ui->regadoLabel->setText("Sim");
-    } else {
-        ui->regadoLabel->setText("Não");
+    if( !currentPlantacao.isEmpty() ) {
+        ui->plantacaoLabel->setText( m_horta->plantacaoPorNome(currentPlantacao).nome() );
+        ui->datPlantioLabel->setText( m_horta->plantacaoPorNome(currentPlantacao).dataPlantio().toString());
+        ui->quantidadeLabel->setText( QString("%1").arg(m_horta->plantacaoPorNome(currentPlantacao).quantidade()) );
+        QDateTime dt =  m_horta->plantacaoPorNome(currentPlantacao).ultimaRegada();
+        if( QDateTime::currentSecsSinceEpoch() - m_horta->plantacaoPorNome(currentPlantacao).ultimaRegada().toSecsSinceEpoch() > SECS_IN_A_DAY ) {
+            ui->regadoLabel->setText("Sim");
+        } else {
+            ui->regadoLabel->setText("Não");
+        }
     }
 }
 
@@ -228,5 +233,30 @@ void MainWindow::resetFields() {
 
 void MainWindow::on_plantacoesComboBox_currentTextChanged(const QString &arg1)
 {
-    //updateFields();
+    updateFields();
+}
+
+void MainWindow::on_regarButton_clicked()
+{
+    if( !m_horta.isNull() ) {
+        m_horta->atualizaRegadaDePlantacao( ui->plantacoesComboBox->currentText() );
+        updateFields();
+
+    }
+}
+
+void MainWindow::on_actionFechar_triggered()
+{
+    if( !m_horta.isNull() ) {
+        noHortaSetup();
+        m_horta.clear();
+        salvar();
+    }
+}
+
+void MainWindow::salvar() {
+    QString fileName = QFileDialog::getOpenFileName( this, "Salva Horta");
+    JSONManager jsManager;
+    QList<QMap<QString, QString>> data = m_horta->mappedData();
+    jsManager.write( data, fileName );
 }

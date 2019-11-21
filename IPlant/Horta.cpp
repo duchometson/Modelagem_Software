@@ -24,9 +24,17 @@ QList<Plantacao> Horta::plantacao() const
 
 Plantacao Horta::plantacaoPorNome( QString nome ) const
 {
-    for( Plantacao p : m_plantacao ) {
-        if( p.nome() == nome ) {
-            return p;
+    for( int i = 0; i < m_plantacao.size(); i++ ) {
+        if( m_plantacao.at(i).nome() == nome ) {
+            return m_plantacao[i];
+        }
+    }
+}
+
+void Horta::atualizaRegadaDePlantacao( QString plantacao ) {
+    for( int i = 0; i < m_plantacao.size(); i++ ) {
+        if( m_plantacao.at(i).nome() == plantacao ) {
+            m_plantacao[i].atualizaRegada();
         }
     }
 }
@@ -57,7 +65,6 @@ QList<QMap<QString, QString>> Horta::mappedData() {
     QMap<QString, QString> hortaData;
     hortaData.insert( "Horta." + m_nome + ".nome", m_nome );
     hortaData.insert( "dono." + m_dono.nome() + ".nome", m_dono.nome() );
-    hortaData.insert( "dono." + m_dono.nome() + ".habilidade", QString("%1").arg(m_dono.nivelConhecimento()) );
     hortaData.insert( "dono." + m_dono.nome() + ".cidade", QString("%1").arg(m_dono.cidade()) );
     hortaData.insert( "dono." + m_dono.nome() + ".pais", QString("%1").arg(m_dono.pais()) );
     ret.append(hortaData);

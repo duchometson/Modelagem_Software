@@ -21,9 +21,14 @@ public:
     void setNivelAtencao(int nivelAtencao);
 
     QDateTime ultimaRegada() const;
+    void setUltimaRegada(const QDateTime &ultimaRegada);
     void atualizaRegada();
 
     QMap<QString, QString> mappedData() const;
+
+    QDateTime dataPlantio() const;
+    void setDataPlantio(const QDateTime &dataPlantio);
+
 
 signals:
 

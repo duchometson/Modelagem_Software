@@ -20,6 +20,7 @@ public:
 
     QList<Plantacao> plantacao() const;
     Plantacao plantacaoPorNome( QString nome ) const;
+    void atualizaRegadaDePlantacao( QString plantacao );
     void setPlantacao(const QList<Plantacao> &plantacao);
     void addPlantacao(Plantacao plantacao);
 
