@@ -113,8 +113,8 @@ void MainWindow::updateLabels(QByteArray b) {
 
     for( Recomendacao r : m_recomendacao.values(m_horta->dono().cidade()) ) {
         if( ui->plantacoesComboBox->currentText() == r.plantacao() ) {
-            if( r.temperatura() - 3 < chop.at(0).toInt() &&
-                chop.at(0).toInt() < r.temperatura() + 3 ) {
+            if( (double)(r.temperatura() - 3.0) > list.at(2).toDouble() ||
+                list.at(2).toDouble() > (double)(r.temperatura() + 3.0) ) {
                 QPalette palette;
                 palette.setBrush(QPalette::Highlight, QBrush(Qt::red));
                 ui->iluminacao_progressBar->setPalette(palette);
