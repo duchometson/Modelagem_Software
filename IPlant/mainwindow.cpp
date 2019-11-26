@@ -11,6 +11,18 @@
 #include <QQuickWidget>
 
 #define SECS_IN_A_DAY 86400
+#define TODA_TEMP 1000
+#define TODA_UMID 1000
+#define TODA_LUM 1000
+
+#define LUM_ALTA 85
+#define LUM_MEDIA 50
+#define LUM_BAIXA 15
+
+#define UMID_ALTA 170
+#define UMID_MEDIA 100
+#define UMID_BAIXA 45
+
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -68,15 +80,17 @@ void MainWindow::updateLabels(QByteArray b) {
 
     ui->iluminacaoLabel->setText(list.at(0));
     int ilu =list.at(0).toInt();
-    if (ilu < 15 || ilu > 85) {
+    if ( ilu < LUM_BAIXA ) {
         QPalette palette;
         palette.setBrush(QPalette::Highlight, QBrush(Qt::red));
         ui->iluminacao_progressBar->setPalette(palette);
+        ui->recoIluLabel->setText("Iluminação Baixa Demais. Mova para um local mais claro.");
     }
     else {
         QPalette palette;
         palette.setBrush(QPalette::Highlight, QBrush(Qt::green));
         ui->iluminacao_progressBar->setPalette(palette);
+        ui->recoIluLabel->setText("Iluminação Boa.");
     }
 
     ui->iluminacao_progressBar->setValue(list.at(0).toInt());
@@ -85,9 +99,28 @@ void MainWindow::updateLabels(QByteArray b) {
     QStringList chop = list.at(1).split(".");
     ui->umidade_progressBar->setValue(chop.at(0).toInt());
 
+    for( Recomendacao r : m_recomendacao.values(m_horta->dono().cidade()) ) {
+        if( ui->plantacoesComboBox->currentText() == r.plantacao() ) {
+            ui->recoUmidLabel->setText("Umidade Boa.");
+        } else {
+            ui->recoUmidLabel->setText("Umidade não recomendada.");
+        }
+    }
+
     chop = list.at(2).split(".");
     ui->temperaturaLabel->setText(list.at(2));
     ui->temperatura_progressBar->setValue(chop.at(0).toInt());
+
+    for( Recomendacao r : m_recomendacao.values(m_horta->dono().cidade()) ) {
+        if( ui->plantacoesComboBox->currentText() == r.plantacao() ) {
+            if( r.temperatura() - 3 < chop.at(0).toInt() &&
+                chop.at(0).toInt() < r.temperatura() + 3 ) {
+                QPalette palette;
+                palette.setBrush(QPalette::Highlight, QBrush(Qt::red));
+                ui->iluminacao_progressBar->setPalette(palette);
+            }
+        }
+    }
 
 }
 
@@ -101,6 +134,7 @@ void MainWindow::registraNovaHorta(Horta *horta)
     m_horta.reset(horta);
     QString dir = QFileDialog::getExistingDirectory();
     QFile file(dir + "/" + m_horta->nome() + ".json");
+    setCurrentFileName(file.fileName());
     file.open( QIODevice::WriteOnly );
     file.write("");
     file.close();
@@ -253,29 +287,38 @@ void MainWindow::on_regarButton_clicked()
 void MainWindow::on_actionFechar_triggered()
 {
     if( !m_horta.isNull() ) {
+        salvar();
         noHortaSetup();
         m_horta.clear();
-        salvar();
     }
 }
 
 void MainWindow::salvar() {
-    QString fileName = QFileDialog::getOpenFileName( this, "Salva Horta");
     JSONManager jsManager;
     QList<QMap<QString, QString>> data = m_horta->mappedData();
-    jsManager.write( data, fileName );
+    jsManager.write( data, currentFileName() );
+}
+
+void MainWindow::setCurrentFileName(const QString &currentFile)
+{
+    m_currentFileName = currentFile;
+}
+
+QString MainWindow::currentFileName() const
+{
+    return m_currentFileName;
 }
 
 void MainWindow::recomendacoesPadroes() {
-    m_recomendacao.insert("Florianópolis", Recomendacao("Maça", "Verão", "Morno", "Alto", "26º", "Alta" ));
-    m_recomendacao.insert("Florianópolis", Recomendacao("Milho", "Inverno", "Frio", "Baixa", "12º", "Média" ));
-    m_recomendacao.insert("Rio de Janeiro", Recomendacao("Banana", "Todas", "Todas", "Todas", "Todas", "Todas" ));
-    m_recomendacao.insert("Rio de Janeiro", Recomendacao("Tomate", "Inverno", "Ameno", "Média", "20º", "Média" ));
-    m_recomendacao.insert("Rio de Janeiro", Recomendacao("Uva", "Inverno", "Ameno", "Média", "20º", "Média" ));
-    m_recomendacao.insert("Natal", Recomendacao("Manga", "Verão", "Quente", "Alta", "30º", "Média" ));
-    m_recomendacao.insert("Natal", Recomendacao("Feijão", "Primavera", "Morno", "Alta", "25º", "Média" ));
-    m_recomendacao.insert("Manaus", Recomendacao("Milho", "Inverno", "Quente", "Alta", "27º", "Média" ));
-    m_recomendacao.insert("Manaus", Recomendacao("Maracujá", "Todas", "Todas", "Todas", "Todas", "Todas" ));
+    m_recomendacao.insert("Florianópolis", Recomendacao("Maça", "Verão", "Morno", UMID_ALTA, 26, LUM_ALTA ));
+    m_recomendacao.insert("Florianópolis", Recomendacao("Milho", "Inverno", "Frio", UMID_BAIXA, 12, LUM_MEDIA ));
+    m_recomendacao.insert("Rio de Janeiro", Recomendacao("Banana", "Todas", "Todas", TODA_UMID, TODA_TEMP, TODA_LUM ));
+    m_recomendacao.insert("Rio de Janeiro", Recomendacao("Tomate", "Inverno", "Ameno", UMID_MEDIA, 20, LUM_MEDIA ));
+    m_recomendacao.insert("Rio de Janeiro", Recomendacao("Uva", "Inverno", "Ameno", UMID_MEDIA, 20, LUM_MEDIA ));
+    m_recomendacao.insert("Natal", Recomendacao("Manga", "Verão", "Quente", UMID_ALTA, 30, LUM_MEDIA ));
+    m_recomendacao.insert("Natal", Recomendacao("Feijão", "Primavera", "Morno", UMID_ALTA, 25, LUM_MEDIA ));
+    m_recomendacao.insert("Manaus", Recomendacao("Milho", "Inverno", "Quente", UMID_ALTA, 27, LUM_MEDIA ));
+    m_recomendacao.insert("Manaus", Recomendacao("Maracujá", "Todas", "Todas", TODA_UMID, 1000, TODA_LUM ));
 }
 
 void MainWindow::atualizaRecomendacoes() {

@@ -18,7 +18,7 @@
     <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>2</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
@@ -198,6 +198,24 @@
          </layout>
         </item>
         <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_13">
+          <item>
+           <widget class="QLabel" name="label_9">
+            <property name="text">
+             <string>Recomendação:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="recoIluLabel">
+            <property name="text">
+             <string>.</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
          <widget class="QLabel" name="label_7">
           <property name="text">
            <string>Umidade:</string>
@@ -239,6 +257,24 @@
          </layout>
         </item>
         <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_14">
+          <item>
+           <widget class="QLabel" name="label_11">
+            <property name="text">
+             <string>Recomendação:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="recoUmidLabel">
+            <property name="text">
+             <string>.</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
          <widget class="QLabel" name="label_8">
           <property name="text">
            <string>Temperatura:</string>
@@ -274,6 +310,24 @@
            <widget class="QProgressBar" name="temperatura_progressBar">
             <property name="value">
              <number>24</number>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_15">
+          <item>
+           <widget class="QLabel" name="label_13">
+            <property name="text">
+             <string>Recomendação:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="recoTempLabel">
+            <property name="text">
+             <string>.</string>
             </property>
            </widget>
           </item>

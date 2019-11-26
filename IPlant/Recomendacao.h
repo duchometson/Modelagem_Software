@@ -6,7 +6,7 @@
 class Recomendacao
 {
 public:
-    Recomendacao( QString plantacao, QString estacao, QString clima, QString umidade, QString temperatura, QString luminosidade );
+    Recomendacao( QString plantacao, QString estacao, QString clima, int umidade, int temperatura, int luminosidade );
 
     QString estacao() const;
     void setEstacao(const QString &estacao);
@@ -14,14 +14,14 @@ public:
     QString clima() const;
     void setClima(const QString &clima);
 
-    QString umidade() const;
-    void setUmidade(const QString &umidade);
+    int umidade() const;
+    void setUmidade(int umidade);
 
-    QString temperatura() const;
-    void setTemperatura(const QString &temperatura);
+    int temperatura() const;
+    void setTemperatura(int temperatura);
 
-    QString luminosidade() const;
-    void setLuminosidade(const QString &luminosidade);
+    int luminosidade() const;
+    void setLuminosidade(int luminosidade);
 
     QString plantacao() const;
     void setPlantacao(const QString &plantacao);
@@ -30,9 +30,9 @@ private:
     QString m_plantacao;
     QString m_estacao;
     QString m_clima;
-    QString m_umidade;
-    QString m_temperatura;
-    QString m_luminosidade;
+    int m_umidade;
+    int m_temperatura;
+    int m_luminosidade;
 };
 
 #endif // RECOMENDACAO_H

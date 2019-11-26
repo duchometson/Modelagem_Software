@@ -22,6 +22,10 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+    QString currentFileName() const;
+
+    void setCurrentFileName(const QString &currentFileName);
+
 private slots:
     void aquireDataFromController();
 
@@ -60,6 +64,7 @@ private:
     QQuickWidget *m_quickWidget;
     QSharedPointer<Horta> m_horta;
     QHash<QString,Recomendacao> m_recomendacao;
+    QString m_currentFileName;
 };
 
 #endif // MAINWINDOW_H
