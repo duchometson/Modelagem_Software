@@ -138,8 +138,9 @@ void MainWindow::registraNovaHorta(Horta *horta)
 {
     m_horta.reset(horta);
     QString dir = QFileDialog::getExistingDirectory();
-    QFile file(dir + "/" + m_horta->nome() + ".json");
-    setCurrentFileName(file.fileName());
+    QString fileFullPath = dir + "/" + m_horta->nome() + ".json";
+    QFile file(fileFullPath);
+    setCurrentFileName(fileFullPath);
     file.open( QIODevice::WriteOnly );
     file.write("");
     file.close();
@@ -150,6 +151,7 @@ void MainWindow::on_actionCarregar_Horta_triggered()
     QString fileName = QFileDialog::getOpenFileName( this, "Escolha Horta");
     JSONManager jsManager;
     QMap<QString, QVariant> jsonData = jsManager.load(fileName);
+    setCurrentFileName(fileName);
     QList<QString> plantacaoLida;
     int contadorPlantacao = 0;
     QString nomeDono;
