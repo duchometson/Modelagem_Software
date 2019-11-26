@@ -118,6 +118,11 @@ void MainWindow::updateLabels(QByteArray b) {
                 QPalette palette;
                 palette.setBrush(QPalette::Highlight, QBrush(Qt::red));
                 ui->iluminacao_progressBar->setPalette(palette);
+                int tempIdeal = r.temperatura();
+                QString result = ( r.temperatura() - 3 < chop.at(0).toInt() ) ? QString("Abaixo") : QString("Acima");
+                ui->recoTempLabel->setText(QString("Temperatura %1 do ideal. Ideal: %2").arg(result).arg(tempIdeal));
+            } else {
+                ui->recoTempLabel->setText("Temperatura boa.");
             }
         }
     }
